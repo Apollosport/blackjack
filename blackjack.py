@@ -56,10 +56,32 @@ class Account:
         self.amount-=amount
         print(self.__str__())
 
-def show_cards(player_cards: [Card], dealer_cards: [Card], money_bet: int) -> None:
+class Hand:
+    def __init__(self) -> None:
+        self.cards = []
+        self.value = 0
+        self.aces = 0
+
+    def add_card(self, card: Card)-> None:
+        self.cards.append(card)
+        self.value += values[card.rank]
+        if card.rank == "Ace":
+            self.aces+=1
+
+    def return_value(self)-> int :
+        while self.value > 21 and self.aces:
+            self.value-= 10
+            self.aces-=1
+        return self.value
+    
+    def return_cards(self)-> [Card]:
+        return self.cards
+
+def show_cards(player_cards: [Card], player_value: int, dealer_cards: [Card], money_bet: int) -> None:
     scroll_up()
     print(f"You got ${money_bet} riding on this!")
     print("The House has: ", end = '')
+
     for card in dealer_cards:
         print(card,end = '. ')
     print("\n")
@@ -68,23 +90,24 @@ def show_cards(player_cards: [Card], dealer_cards: [Card], money_bet: int) -> No
     for card in player_cards:
         print(card,end = '. ')
     print("\n")
+    print(f"Current maximum card value: {player_value}")
 
-def check_cards(cards: [Card]) -> (int,int):
-    return_value: int = 0
-    return_value_1: int = 0
-    for card in cards:
-        if card.value == 11:            
-            return_value_1 += 1
-        else:
-            return_value_1 += card.value
-        return_value += card.value
-    return (return_value, return_value_1)
+# def check_cards(cards: [Card]) -> (int,int):
+#     return_value: int = 0
+#     return_value_1: int = 0
+#     for card in cards:
+#         if card.value == 11:            
+#             return_value_1 += 1
+#         else:
+#             return_value_1 += card.value
+#         return_value += card.value
+#     return (return_value, return_value_1)
 
-def highest_under_21(cards: [Card]) -> bool:
-    return max(check_cards(cards)) if max(check_cards(cards)) < 22 else min(check_cards(cards))
+# def highest_under_21(cards: [Card]) -> bool:
+#     return max(check_cards(cards)) if max(check_cards(cards)) < 22 else min(check_cards(cards))
 
-def house_wins(player_cards: [Card], dealer_cards: [Card]) -> bool:
-    return highest_under_21(dealer_cards) > highest_under_21(player_cards)
+# def house_wins(player_cards: [Card], dealer_cards: [Card]) -> bool:
+#     return highest_under_21(dealer_cards) > highest_under_21(player_cards)
 
 scroll_up()
 print('°~-Welcome to Jack Blacks Blackjack-~°')
@@ -101,8 +124,8 @@ while game_on:
         game_on == False
         break
 
-    player_cards = []
-    dealer_cards = []
+    player_cards = Hand()
+    dealer_cards = Hand()
     money_bet: int = 0
     while True:
         money_bet = (input('How much do you want to bet?\n'))
@@ -122,45 +145,46 @@ while game_on:
         else:
             print(f"Please enter a number from $1 to ${player.amount}!")
     
-    player_cards.append(card_deck.deal_one())
-    dealer_cards.append(card_deck.deal_one())
-    player_cards.append(card_deck.deal_one())
-    dealer_cards.append(card_deck.deal_one())
+    player_cards.add_card(card_deck.deal_one())
+    dealer_cards.add_card(card_deck.deal_one())
+    player_cards.add_card(card_deck.deal_one())
+    dealer_cards.add_card(card_deck.deal_one())
 
-    show_cards(player_cards, [dealer_cards[0]], money_bet)
+    print('what',player_cards.return_cards())
+    show_cards(player_cards.return_cards(), player_cards.return_value(), [dealer_cards.return_cards()[0]], money_bet)
 
     push_on: bool = True
 
     while push_on:
-        if min(check_cards(player_cards))>21:
+        if player_cards.return_value()>21:        
             print('You overreached 21 and lost!')            
             push_on = False
             break
         choice = (input('Do you want another card? (H for hit & S for stay)')).upper()
-        if choice == "S":
+        if choice[0] == "S":
             push_on = False
             break
-        if choice == "H":
-            player_cards.append(card_deck.deal_one())
-            show_cards(player_cards, [dealer_cards[0]], money_bet)
+        if choice[0] == "H":
+            player_cards.add_card(card_deck.deal_one())
+            show_cards(player_cards.return_cards(), player_cards.return_value(), [dealer_cards.return_cards()[0]], money_bet)
 
     house_always_wins = True
     while house_always_wins:
-        if min(check_cards(player_cards))>21:
+        if player_cards.return_value()>21:
             house_always_wins = False
             break
-        if min(check_cards(dealer_cards))>21:
-            show_cards(player_cards, dealer_cards, money_bet)
+        if dealer_cards.return_value()>21:
+            show_cards(player_cards.return_cards(), player_cards.return_value(), dealer_cards.return_cards(), money_bet)
             print("The house overreached and lost!")
             player.add_money(2*money_bet)
             house_always_wins = False
             break        
-        if house_wins(player_cards, dealer_cards):
-            show_cards(player_cards, dealer_cards, money_bet)            
+        if dealer_cards.return_value()>player_cards.return_value():
+            show_cards(player_cards.return_cards(), player_cards.return_value(), dealer_cards.return_cards(), money_bet)
             print("The House wins and you lost")
             house_always_wins = False
             break
-        dealer_cards.append(card_deck.deal_one())
+        dealer_cards.add_card(card_deck.deal_one())
         
 
 
