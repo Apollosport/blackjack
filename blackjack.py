@@ -15,8 +15,6 @@ class Card:
         self.value = values[rank.title()]       
     def __str__(self):
         return self.rank+" of "+self.suit
-    def show_rank(self):
-        return self.rank
 
 class Deck:
     def __init__(self) -> None:
@@ -55,7 +53,6 @@ class Account:
 def show_cards(player_cards, dealer_cards, money_bet):
     scroll_up()
     print(f"You got ${money_bet} riding on this!")
-    # print("The House has:", dealer_cards[0],'.')
     print("The House has: ", end = '')
     for card in dealer_cards:
         print(card,end = '. ')
@@ -120,8 +117,6 @@ while game_on:
         else:
             print(f"Please enter a number from 1 to {player.amount}!")
     
-    # card_deck.deal_one()
-
     player_cards.append(card_deck.deal_one())
     dealer_cards.append(card_deck.deal_one())
     player_cards.append(card_deck.deal_one())
@@ -132,7 +127,6 @@ while game_on:
     push_on = True
 
     while push_on:
-        # print('hello ',sum(value.value for value in player_cards))
         if min(check_cards(player_cards))>21:
             print('You overreached 21 and lost!')            
             push_on = False
@@ -155,9 +149,7 @@ while game_on:
             print("The house overreached and lost!")
             player.add_money(2*money_bet)
             house_always_wins = False
-            break
-        # print('highest', highest_under_21(player_cards, dealer_cards))
-        # print("in dealer cards: ", highest_under_21(player_cards, dealer_cards) in dealer_cards)
+            break        
         if house_wins(player_cards, dealer_cards):
             show_cards(player_cards, dealer_cards, money_bet)            
             print("The House wins and you lost")
