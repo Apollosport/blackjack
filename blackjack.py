@@ -15,7 +15,7 @@ def scroll_up() -> None:
     print("\n"*50)
 
 class Card:
-    def __init__(self, suit, rank) -> None:
+    def __init__(self, suit: str, rank: str) -> None:
         self.suit = suit
         self.rank = rank
         self.value = values[rank.title()]       
@@ -38,25 +38,25 @@ class Deck:
         return self.all_cards.pop()
     
 class Account:
-    def __init__(self, amount) -> None:
+    def __init__(self, amount: int) -> None:
         self.amount = amount
         print(self.__str__())        
 
     def __str__(self) -> str:
         return 'You have $'+str(self.amount)+' in your account!'
     
-    def add_money(self, amount)-> None:
+    def add_money(self, amount: int)-> None:
         self.amount+=amount
         print(self.__str__())
 
-    def subtract_money(self, amount) -> None:
+    def subtract_money(self, amount: int) -> None:
         if self.amount < amount:
             print("Insufficient funds!")
             return
         self.amount-=amount
         print(self.__str__())
 
-def show_cards(player_cards, dealer_cards, money_bet) -> None:
+def show_cards(player_cards: [Card], dealer_cards: [Card], money_bet: int) -> None:
     scroll_up()
     print(f"You got ${money_bet} riding on this!")
     print("The House has: ", end = '')
@@ -69,7 +69,7 @@ def show_cards(player_cards, dealer_cards, money_bet) -> None:
         print(card,end = '. ')
     print("\n")
 
-def check_cards(cards) -> (int,int):
+def check_cards(cards: [Card]) -> (int,int):
     return_value = 0
     return_value_1 = 0
     for card in cards:
@@ -80,10 +80,10 @@ def check_cards(cards) -> (int,int):
         return_value += card.value
     return (return_value, return_value_1)
 
-def highest_under_21(cards) -> bool:
+def highest_under_21(cards: [Card]) -> bool:
     return max(check_cards(cards)) if max(check_cards(cards)) < 22 else min(check_cards(cards))
 
-def house_wins(player_cards, dealer_cards) -> bool:
+def house_wins(player_cards: [Card], dealer_cards: [Card]) -> bool:
     return highest_under_21(dealer_cards) > highest_under_21(player_cards)
 
 scroll_up()
@@ -94,10 +94,8 @@ game_on = True
 
 while game_on:
     if len(card_deck.all_cards) < 20:
-        print(len(card_deck.all_cards))
         card_deck = Deck()
         print('New deck of cards applied!')
-        print(len(card_deck.all_cards))
     if player.amount == 0:
         print('Dude...get your broke ass out of here. As they say in bavaria: "Zupf di!"')
         game_on == False
