@@ -1,3 +1,9 @@
+'''
+Basic little Blackjack game with no regards to the advanced blackjack rules e.g. splitting.
+Author: Timon Schell
+Website: https://timonschell.com
+'''
+
 import random
 
 suits = ('♥', '♦', '♠', '♣')
