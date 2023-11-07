@@ -5,11 +5,11 @@ ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
             'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace':11}
 
-def scroll_up():
+def scroll_up() -> None:
     print("\n"*50)
 
 class Card:
-    def __init__(self, suit, rank):
+    def __init__(self, suit, rank) -> None:
         self.suit = suit
         self.rank = rank
         self.value = values[rank.title()]       
@@ -25,10 +25,10 @@ class Deck:
                 self.all_cards.append(created_card)
         self.shuffle()
         
-    def shuffle(self):
+    def shuffle(self) -> None:
         random.shuffle(self.all_cards)
 
-    def deal_one(self):
+    def deal_one(self) -> Card:
         return self.all_cards.pop()
     
 class Account:
@@ -50,7 +50,7 @@ class Account:
         self.amount-=amount
         print(self.__str__())
 
-def show_cards(player_cards, dealer_cards, money_bet):
+def show_cards(player_cards, dealer_cards, money_bet) -> None:
     scroll_up()
     print(f"You got ${money_bet} riding on this!")
     print("The House has: ", end = '')
@@ -63,7 +63,7 @@ def show_cards(player_cards, dealer_cards, money_bet):
         print(card,end = '. ')
     print("\n")
 
-def check_cards(cards):
+def check_cards(cards) -> (int,int):
     return_value = 0
     return_value_1 = 0
     for card in cards:
@@ -74,10 +74,10 @@ def check_cards(cards):
         return_value += card.value
     return (return_value, return_value_1)
 
-def highest_under_21(cards):
+def highest_under_21(cards) -> bool:
     return max(check_cards(cards)) if max(check_cards(cards)) < 22 else min(check_cards(cards))
 
-def house_wins(player_cards, dealer_cards):
+def house_wins(player_cards, dealer_cards) -> bool:
     return highest_under_21(dealer_cards) > highest_under_21(player_cards)
 
 scroll_up()
