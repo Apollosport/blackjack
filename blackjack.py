@@ -77,15 +77,20 @@ class Hand:
 def show_cards(player_cards: [Card], player_value: int, dealer_cards: [Card], money_bet: int) -> None:
     scroll_up()
     print(f"You got ${money_bet} riding on this!")
-    print("The House has: ", end = '')
+    # print("The House has: ", end = '')
+    print("The House's hand: ")
+    print(*dealer_cards, sep=' & ')
 
-    for card in dealer_cards:
-        print(card,end = '. ')
+    # for card in dealer_cards:
+    #     print(card,end = '. ')
     print("\n")
 
-    print("You have: ", end = '')
-    for card in player_cards:
-        print(card,end = '. ')
+    # print("You have: ", end = '')
+    # for card in player_cards:
+    #     print(card,end = '. ')
+
+    print("You have: ")
+    print(*player_cards, sep=' & ')
     print("\n")
     print(f"Current maximum card value: {player_value}")
 
