@@ -6,9 +6,9 @@ Website: https://timonschell.com
 
 import random
 
-suits = ('♥', '♦', '♠', '♣')
-ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
-values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
+suits: dict = ('♥', '♦', '♠', '♣')
+ranks: dict = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
+values: dict = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
             'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace':11}
 
 def scroll_up() -> None:
@@ -16,15 +16,15 @@ def scroll_up() -> None:
 
 class Card:
     def __init__(self, suit: str, rank: str) -> None:
-        self.suit = suit
-        self.rank = rank
-        self.value = values[rank.title()]       
+        self.suit:str = suit
+        self.rank:str = rank
+        self.value: int = values[rank.title()]       
     def __str__(self):
         return self.rank+" of "+self.suit
 
 class Deck:
     def __init__(self) -> None:
-        self.all_cards = []
+        self.all_cards: list = []
         for suit in suits:
             for rank in ranks:
                 created_card = Card(suit,rank)
@@ -39,7 +39,7 @@ class Deck:
     
 class Account:
     def __init__(self, amount: int) -> None:
-        self.amount = amount
+        self.amount: int = amount
         print(self.__str__())        
 
     def __str__(self) -> str:
@@ -70,8 +70,8 @@ def show_cards(player_cards: [Card], dealer_cards: [Card], money_bet: int) -> No
     print("\n")
 
 def check_cards(cards: [Card]) -> (int,int):
-    return_value = 0
-    return_value_1 = 0
+    return_value: int = 0
+    return_value_1: int = 0
     for card in cards:
         if card.value == 11:            
             return_value_1 += 1
@@ -90,7 +90,7 @@ scroll_up()
 print('°~-Welcome to Jack Blacks Blackjack-~°')
 card_deck = Deck()
 player = Account(100)
-game_on = True
+game_on: bool = True
 
 while game_on:
     if len(card_deck.all_cards) < 20:
@@ -103,7 +103,7 @@ while game_on:
 
     player_cards = []
     dealer_cards = []
-    money_bet = 0
+    money_bet: int = 0
     while True:
         money_bet = (input('How much do you want to bet?\n'))
         if money_bet.isdigit():            
@@ -128,7 +128,7 @@ while game_on:
 
     show_cards(player_cards, [dealer_cards[0]], money_bet)
 
-    push_on = True
+    push_on: bool = True
 
     while push_on:
         if min(check_cards(player_cards))>21:
