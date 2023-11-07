@@ -109,6 +109,7 @@ while game_on:
         if money_bet.isdigit():            
             money_bet = int(money_bet)
             if money_bet > player.amount:
+                scroll_up()
                 print("Insufficient funds!!!")
                 print(player)
                 money_bet = 0
