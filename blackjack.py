@@ -113,9 +113,9 @@ while game_on:
                 print(f'You bet ${money_bet}!')      
                 break
             else:
-                print(f"Please enter a number from 1 to {player.amount}!")
+                print(f"Please enter a number from $1 to ${player.amount}!")
         else:
-            print(f"Please enter a number from 1 to {player.amount}!")
+            print(f"Please enter a number from $1 to ${player.amount}!")
     
     player_cards.append(card_deck.deal_one())
     dealer_cards.append(card_deck.deal_one())
